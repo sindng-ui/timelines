@@ -5,7 +5,7 @@
  * watershed Event nodes, and an interactive Time Cursor.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useRef, useCallback } from 'react';
 import { GitBranch, ZoomIn, ZoomOut } from 'lucide-react';
 import type {
   DomainPack,
@@ -61,6 +61,8 @@ export const TimeRiverCanvas: React.FC<TimeRiverCanvasProps> = React.memo(
     onScrubYear,
   }) => {
     const [zoomMode, setZoomMode] = useState<'FULL' | 'FOCUS_WINDOW'>('FULL');
+    const [isDragging, setIsDragging] = useState(false);
+    const svgRef = useRef<SVGSVGElement>(null);
 
     const { viewStartYear, viewEndYear, canvasWidthPx } = useMemo(() => {
       if (zoomMode === 'FOCUS_WINDOW') {
@@ -124,6 +126,51 @@ export const TimeRiverCanvas: React.FC<TimeRiverCanvasProps> = React.memo(
 
     const cursorX = yearToX(currentYear);
 
+    const handleScrub = useCallback(
+      (clientX: number) => {
+        if (!svgRef.current) return;
+        const rect = svgRef.current.getBoundingClientRect();
+        const year = xToYear(clientX, rect);
+        onScrubYear(year);
+      },
+      [viewStartYear, viewSpan, plotWidthPx, onScrubYear]
+    );
+
+    const handlePointerDown = (e: React.PointerEvent<SVGSVGElement>) => {
+      const target = e.target as SVGElement;
+      const isCursorHit = target.dataset.cursorHit === 'true';
+      const isRulerHit = target.dataset.rulerHit === 'true';
+      const isInteractive = target.dataset.interactive === 'true';
+
+      // Start drag if clicking cursor, top ruler strip, or non-interactive background
+      if (isCursorHit || isRulerHit || !isInteractive) {
+        setIsDragging(true);
+        try {
+          e.currentTarget.setPointerCapture(e.pointerId);
+        } catch {
+          // ignore
+        }
+        handleScrub(e.clientX);
+      }
+    };
+
+    const handlePointerMove = (e: React.PointerEvent<SVGSVGElement>) => {
+      if (isDragging) {
+        handleScrub(e.clientX);
+      }
+    };
+
+    const handlePointerUp = (e: React.PointerEvent<SVGSVGElement>) => {
+      if (isDragging) {
+        setIsDragging(false);
+        try {
+          e.currentTarget.releasePointerCapture(e.pointerId);
+        } catch {
+          // ignore
+        }
+      }
+    };
+
     return (
       <section className="river-card" aria-label="Time-River 산키 분열·통합 캔버스">
         <div className="section-header">
@@ -169,17 +216,35 @@ export const TimeRiverCanvas: React.FC<TimeRiverCanvasProps> = React.memo(
 
         <div className="river-scroll-wrapper">
           <svg
+            ref={svgRef}
             width={canvasWidthPx}
             height={layout.totalHeightPx}
-            style={{ display: 'block', userSelect: 'none' }}
-            onClick={(e) => {
-              const target = e.target as SVGElement;
-              if (target.dataset.interactive === 'true') return;
-              const rect = e.currentTarget.getBoundingClientRect();
-              const clickedYear = xToYear(e.clientX, rect);
-              onScrubYear(clickedYear);
+            style={{
+              display: 'block',
+              userSelect: 'none',
+              cursor: isDragging ? 'ew-resize' : 'default',
             }}
+            onPointerDown={handlePointerDown}
+            onPointerMove={handlePointerMove}
+            onPointerUp={handlePointerUp}
+            onPointerCancel={handlePointerUp}
           >
+            {/* Top Scrubber Ruler Hit Bar */}
+            <rect
+              data-ruler-hit="true"
+              x={LEFT_GUTTER_PX}
+              y={0}
+              width={plotWidthPx}
+              height={26}
+              fill="#0d1424"
+              fillOpacity={0.8}
+              stroke="#1e293b"
+              strokeWidth={1}
+              style={{ cursor: 'ew-resize' }}
+            >
+              <title>시간 드래그 스크러버 — 좌우로 드래그하여 시점을 이동하세요</title>
+            </rect>
+
             {/* 1. Macro-Era Background Bands */}
             {pack.eraMilestones.map((era) => {
               const x1 = Math.max(LEFT_GUTTER_PX, yearToX(era.startYear));
@@ -511,35 +576,56 @@ export const TimeRiverCanvas: React.FC<TimeRiverCanvasProps> = React.memo(
               );
             })}
 
-            {/* 7. Active Golden Time Cursor Line */}
+            {/* 7. Active Golden Time Cursor Line (Interactive Dragging) */}
             {cursorX >= LEFT_GUTTER_PX &&
               cursorX <= LEFT_GUTTER_PX + plotWidthPx && (
-                <g style={{ pointerEvents: 'none' }}>
+                <g data-cursor-hit="true" style={{ cursor: 'ew-resize' }}>
+                  {/* Wide transparent hit zone for grabbing anywhere along the vertical line */}
                   <line
+                    data-cursor-hit="true"
+                    x1={cursorX}
+                    y1={0}
+                    x2={cursorX}
+                    y2={layout.totalHeightPx}
+                    stroke="transparent"
+                    strokeWidth={32}
+                    style={{ cursor: 'ew-resize' }}
+                  />
+                  {/* Visible Golden Cursor Line */}
+                  <line
+                    data-cursor-hit="true"
                     x1={cursorX}
                     y1={0}
                     x2={cursorX}
                     y2={layout.totalHeightPx}
                     stroke="#f59e0b"
-                    strokeWidth={2.5}
+                    strokeWidth={isDragging ? 3.5 : 2.5}
+                    style={{ cursor: 'ew-resize' }}
                   />
+                  {/* Golden Top Drag Badge */}
                   <rect
-                    x={cursorX - 38}
+                    data-cursor-hit="true"
+                    x={cursorX - 44}
                     y={2}
-                    width={76}
-                    height={20}
+                    width={88}
+                    height={22}
                     rx={4}
-                    fill="#f59e0b"
+                    fill={isDragging ? '#fbbf24' : '#f59e0b'}
+                    stroke="#ffffff"
+                    strokeWidth={isDragging ? 2 : 1}
+                    style={{ cursor: 'ew-resize' }}
                   />
                   <text
+                    data-cursor-hit="true"
                     x={cursorX}
-                    y={16}
+                    y={17}
                     textAnchor="middle"
                     fill="#0b0f17"
-                    fontSize={11.5}
+                    fontSize={12}
                     fontWeight={900}
+                    style={{ cursor: 'ew-resize', userSelect: 'none', pointerEvents: 'none' }}
                   >
-                    {currentYear}년
+                    ◀ {currentYear}년 ▶
                   </text>
                 </g>
               )}

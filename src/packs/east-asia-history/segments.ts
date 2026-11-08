@@ -1,6 +1,6 @@
 /**
  * @file segments.ts
- * @description Chronological StateSegments for each Entity in the East Asia & Korean Peninsula History DomainPack.
+ * @description Chronological StateSegments with territorial locus occupancy and capital coordinates for East Asia History.
  */
 
 import type { StateSegment } from '../../contracts/timeline.contract';
@@ -16,8 +16,14 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(400),
     endTime: createAstroTime(550),
     capitalOrCenter: '국내성 → 평양성(427년 천도)',
+    capitalCoord: { x: 125.75, y: 39.03 },
     keyFigures: ['광개토대왕', '장수왕', '문자명왕'],
     powerWeight: 92,
+    occupiedRegions: [
+      { regionId: 'loc_ea_manchuria_liaodong', level: 'DOMINANT' },
+      { regionId: 'loc_ea_north_pyeongyang', level: 'DOMINANT' },
+      { regionId: 'loc_ea_central_han_river', level: 'DOMINANT' },
+    ],
     stateDescription: '요동과 만주 대부분을 장악하고 427년 평양으로 천도하며 남진 정책을 추진. 475년 백제 한성을 함락하고 한강 유역을 석권하여 동북아 독자 천하관을 확립함.',
     evidenceIds: ['evd_ea_samguksagi_goguryeo'],
   },
@@ -29,8 +35,13 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(551),
     endTime: createAstroTime(668, { month: 9 }),
     capitalOrCenter: '평양성 (장안성)',
+    capitalCoord: { x: 125.75, y: 39.03 },
     keyFigures: ['을지문덕', '영류왕', '연개소문', '보장왕', '연남생'],
     powerWeight: 78,
+    occupiedRegions: [
+      { regionId: 'loc_ea_manchuria_liaodong', level: 'DOMINANT' },
+      { regionId: 'loc_ea_north_pyeongyang', level: 'DOMINANT' },
+    ],
     stateDescription: '한강 유역 상실(551~553) 후 수나라(살수대첩 612)와 당나라(안시성 전투 645)의 대규모 침공을 격퇴했으나, 국력 소모와 연개소문 사후 아들들(남생·남건·남산)의 권력 내분으로 668년 나당연합군에 평양성이 함락됨.',
     evidenceIds: ['evd_ea_samguksagi_goguryeo'],
   },
@@ -44,8 +55,12 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(698),
     endTime: createAstroTime(817),
     capitalOrCenter: '동모산(구국) → 중경 → 상경 용천부',
+    capitalCoord: { x: 129.1, y: 43.4 },
     keyFigures: ['대조영(고왕)', '무왕(대무예)', '문왕(대흠무)'],
     powerWeight: 80,
+    occupiedRegions: [
+      { regionId: 'loc_ea_manchuria_liaodong', level: 'DOMINANT' },
+    ],
     stateDescription: '대조영이 천문령 전투에서 당군을 격파하고 동모산에 건국. 무왕 대에 산둥반도 등주를 선제공격하고, 문왕 대에 상경 용천부 천도 및 일본과의 국교 문서에서 스스로를 "고구려 국왕(高麗國王)"이라 칭하며 국가 체제를 완비함.',
     evidenceIds: ['evd_ea_balhae_japan_envoy'],
   },
@@ -57,8 +72,13 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(818),
     endTime: createAstroTime(926, { month: 1 }),
     capitalOrCenter: '상경 용천부 (5경 15부 62주)',
+    capitalCoord: { x: 129.1, y: 43.8 },
     keyFigures: ['선왕(대인수)', '대인선(말왕)', '세자 대광현'],
     powerWeight: 88,
+    occupiedRegions: [
+      { regionId: 'loc_ea_manchuria_liaodong', level: 'DOMINANT' },
+      { regionId: 'loc_ea_north_pyeongyang', level: 'INFLUENTIAL' },
+    ],
     stateDescription: '선왕 대에 요동과 연해주, 한반도 북부까지 영토를 넓혀 5경 15부 62주 체제의 "해동성국"으로 불림. 그러나 10세기 초 지배층 내분 속에서 신흥 강국 거란(야율아보기)의 기습 침공으로 926년 멸망하고, 세자 대광현 등 수많은 유민이 고려로 망명함.',
     evidenceIds: ['evd_ea_balhae_fall_refugees'],
   },
@@ -72,8 +92,12 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(907),
     endTime: createAstroTime(1000),
     capitalOrCenter: '상경 임황부',
+    capitalCoord: { x: 121.0, y: 43.5 },
     keyFigures: ['야율아보기(요 태조)', '야율덕광(요 태종)', '소손녕'],
     powerWeight: 90,
+    occupiedRegions: [
+      { regionId: 'loc_ea_manchuria_liaodong', level: 'DOMINANT' },
+    ],
     stateDescription: '907년 야율아보기가 거란 8부를 통합해 황제에 즉위하고, 926년 발해를 멸망시킨 뒤 그 자리에 동란국을 세움. 고려 태조 왕건은 발해를 멸망시킨 거란을 "무도한 나라"로 규정하고 만부교 사건(942)으로 외교를 단절함.',
     evidenceIds: ['evd_ea_goryeo_manbugyo'],
   },
@@ -87,8 +111,13 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(400),
     endTime: createAstroTime(660, { month: 7 }),
     capitalOrCenter: '한성 → 웅진(475) → 사비(538)',
+    capitalCoord: { x: 126.91, y: 36.28 },
     keyFigures: ['무령왕', '성왕', '무왕', '의자왕', '계백', '복신·도침'],
     powerWeight: 72,
+    occupiedRegions: [
+      { regionId: 'loc_ea_southwest_honam', level: 'DOMINANT' },
+      { regionId: 'loc_ea_central_han_river', level: 'INFLUENTIAL' },
+    ],
     stateDescription: '475년 고구려 장수왕에게 한성을 빼앗긴 후 웅진과 사비로 천도하며 성왕 대에 중흥을 이룩함. 그러나 관산성 전투(554) 패배로 신라와 철천지원수가 되었고, 의자왕 대 대야성 함락 등 신라를 압박하다 660년 나당연합군에 멸망함.',
     evidenceIds: ['evd_ea_samguksagi_silla_unification'],
   },
@@ -102,13 +131,17 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(400),
     endTime: createAstroTime(562),
     capitalOrCenter: '김해(금관가야) · 고령(대가야)',
+    capitalCoord: { x: 128.26, y: 35.72 },
     keyFigures: ['구형왕', '무력', '우륵'],
     powerWeight: 38,
+    occupiedRegions: [
+      { regionId: 'loc_ea_southeast_yeongnam', level: 'INFLUENTIAL' },
+    ],
     stateDescription: '백제와 신라 사이에서 독자적 외교와 철기 교역을 이어갔으나, 532년 금관가야가 신라 법흥왕에게 자진 투항(김유신 가문 편입)하고, 562년 진흥왕의 정벌로 대가야까지 신라에 완전 병합됨.',
     evidenceIds: ['evd_ea_samguksagi_silla_unification'],
   },
 
-  // 6. Silla (400 - 935): 4 distinct phases showing rise, unification, decay/split, and peaceful surrender!
+  // 6. Silla (400 - 935)
   {
     id: 'seg_ea_silla_expansion',
     entityId: 'ent_ea_silla',
@@ -117,8 +150,13 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(400),
     endTime: createAstroTime(675),
     capitalOrCenter: '금성 (경주)',
+    capitalCoord: { x: 129.22, y: 35.84 },
     keyFigures: ['진흥왕', '선덕여왕', '태종무열왕(김춘추)', '문무왕', '김유신'],
     powerWeight: 76,
+    occupiedRegions: [
+      { regionId: 'loc_ea_southeast_yeongnam', level: 'DOMINANT' },
+      { regionId: 'loc_ea_central_han_river', level: 'DOMINANT' },
+    ],
     stateDescription: '6세기 한강 유역과 가야를 장악하여 삼국 경쟁의 주도권을 잡음. 김춘추의 나당동맹 외교로 백제(660)와 고구려(668)를 멸망시키고, 매소성(675)·기벌포(676) 전투에서 당군을 축출하여 삼국통일을 완수함.',
     evidenceIds: ['evd_ea_samguksagi_silla_unification'],
   },
@@ -130,8 +168,15 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(676),
     endTime: createAstroTime(779),
     capitalOrCenter: '금성 (경주) · 9주 5소경',
+    capitalCoord: { x: 129.22, y: 35.84 },
     keyFigures: ['신문왕', '성덕왕', '경덕왕', '혜공왕'],
     powerWeight: 86,
+    occupiedRegions: [
+      { regionId: 'loc_ea_southeast_yeongnam', level: 'DOMINANT' },
+      { regionId: 'loc_ea_southwest_honam', level: 'DOMINANT' },
+      { regionId: 'loc_ea_central_han_river', level: 'DOMINANT' },
+      { regionId: 'loc_ea_north_pyeongyang', level: 'DOMINANT' },
+    ],
     stateDescription: '신문왕이 김흠돌의 난을 진압하고 9주 5소경과 9서당 10정 군사 체제를 완비하며 전제왕권을 확립함. 백제·고구려 유민을 포섭하고 불국사·석굴암 등 찬란한 문화를 꽃피웠으나 780년 혜공왕 피살로 무열왕계 전제왕권이 붕괴됨.',
     evidenceIds: ['evd_ea_samguksagi_silla_unification'],
   },
@@ -143,9 +188,15 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(780),
     endTime: createAstroTime(900),
     capitalOrCenter: '금성 (경주 — 지방 통제력 상실)',
+    capitalCoord: { x: 129.22, y: 35.84 },
     keyFigures: ['김헌창', '장보고', '최치원', '진성여왕', '원종·애노', '양길', '기훤'],
     powerWeight: 42,
-    stateDescription: '150년간 20명의 왕이 교체되는 진골 귀족 내전(김헌창의 난 822, 장보고 암살 846)과 골품제 모순으로 6두품 지식인이 이탈함. 특히 889년(진성여왕 3년) 귀족 대토지 소유와 이중 과세 독촉으로 전국적 농민 봉기(원종·애노의 난)가 폭발하며 지방 호족(견훤·양길·궁예·왕륭)이 사실상 독립함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_southeast_yeongnam', level: 'DOMINANT' },
+      { regionId: 'loc_ea_central_han_river', level: 'CONTESTED' },
+      { regionId: 'loc_ea_southwest_honam', level: 'CONTESTED' },
+    ],
+    stateDescription: '150년간 20명의 왕이 교체되는 진골 귀족 내전과 골품제 모순으로 6두품 지식인이 이탈함. 특히 889년(진성여왕 3년) 조세 독촉으로 전국적 농민 봉기(원종·애노의 난)가 폭발하며 지방 호족(견훤·양길·궁예·왕륭)이 사실상 독립함.',
     evidenceIds: ['evd_ea_jinseong_889_rebellion', 'evd_ea_choichiwon_shimu10'],
   },
   {
@@ -156,9 +207,13 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(901),
     endTime: createAstroTime(935, { month: 11 }),
     capitalOrCenter: '금성 (경주 인근 영남 일부로 축소)',
+    capitalCoord: { x: 129.22, y: 35.84 },
     keyFigures: ['효공왕', '경애왕', '경순왕(김부)', '마의태자'],
     powerWeight: 18,
-    stateDescription: '영토가 경주 주변으로 축소되어 자력 방어 능력을 상실하고 고려 왕건과 친선 동맹을 맺음. 927년 후백제 견훤의 기습으로 경애왕이 포석정에서 비극적 최후를 맞았으나, 고려의 보호 정책과 민심에 힘입어 935년 마지막 왕 경순왕이 평화적으로 나라를 고려에 넘김.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_southeast_yeongnam', level: 'INFLUENTIAL' },
+    ],
+    stateDescription: '영토가 경주 주변으로 축소되어 자력 방어 능력을 상실하고 고려 왕건과 친선 동맹을 맺음. 927년 후백제 견훤의 기습으로 경애왕이 포석정에서 비극적 최후를 맞았으나, 935년 마지막 왕 경순왕이 평화적으로 나라를 고려에 넘김.',
     evidenceIds: ['evd_ea_poseokjeong_gongsan', 'evd_ea_silla_surrender_935'],
   },
 
@@ -171,26 +226,35 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(892),
     endTime: createAstroTime(917),
     capitalOrCenter: '무진주(광주 892) → 완산주(전주 900)',
+    capitalCoord: { x: 127.15, y: 35.82 },
     keyFigures: ['견훤', '능환', '최승우'],
     powerWeight: 62,
-    stateDescription: '상주 가은현 출신 신라 서남해 방위군 비장 견훤이 892년 무진주(광주)를 점령하고, 900년 완산주(전주)에 입성해 "의자왕의 숙원을 풀겠다"며 후백제를 정식 건국함. 충청·호남을 석권하고 오월·후당·일본과 외교를 펼쳤으나, 903년 궁예 휘하 왕건의 수군에게 배후 거점 나주(금성)를 빼앗겨 해상로가 견제됨.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_southwest_honam', level: 'DOMINANT' },
+    ],
+    stateDescription: '신라 서남해 방위군 비장 견훤이 892년 무진주를 점령하고 900년 완산주(전주)에 입성해 후백제를 정식 건국함. 충청·호남을 석권했으나 903년 왕건의 수군에게 나주(금성)를 빼앗김.',
     evidenceIds: ['evd_ea_samguksagi_gyeonhwon', 'evd_ea_naju_naval_campaign'],
   },
   {
     id: 'seg_ea_hubaekje_climax_and_fall',
     entityId: 'ent_ea_hubaekje',
-    phaseTitle: '경주 습격·공산 전투 대승(927) 전성기 → 고창 패배(930) → 금산사 정변(935) 및 멸망',
+    phaseTitle: '경주 습격·공산 대승(927) → 고창 패배(930) → 금산사 정변(935) 및 멸망',
     officialName: '후백제 (後百濟)',
     startTime: createAstroTime(918),
     endTime: createAstroTime(936, { month: 9 }),
     capitalOrCenter: '완산주 (전주)',
+    capitalCoord: { x: 127.15, y: 35.82 },
     keyFigures: ['견훤', '신검', '양검', '용검', '금강'],
     powerWeight: 74,
-    stateDescription: '927년 신라 수도 경주를 급습해 경애왕을 제거하고 공산(팔공산) 전투에서 왕건의 고려군을 궤멸시키며 군사적 정점에 달함. 그러나 강경 무력 노선으로 신라 민심을 잃고 930년 고창(안동) 전투와 934년 운주 전투에서 연패함. 결정적으로 935년 후계자 문제(넷째 금강 편애)로 장남 신검이 견훤을 금산사에 유폐하는 쿠데타를 일으켰고, 탈출한 견훤이 왕건에게 귀순하면서 936년 일리천 전투에서 스스로 멸망함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_southwest_honam', level: 'DOMINANT' },
+      { regionId: 'loc_ea_southeast_yeongnam', level: 'CONTESTED' },
+    ],
+    stateDescription: '927년 경주를 급습하고 공산 전투에서 왕건을 대파하며 군사적 정점에 달했으나, 930년 고창 전투 패배와 935년 신검의 금산사 정변으로 자멸하여 936년 일리천 전투에서 고려에 멸망함.',
     evidenceIds: ['evd_ea_poseokjeong_gongsan', 'evd_ea_gochang_battle_930', 'evd_ea_geumsansa_illicheon'],
   },
 
-  // 8. Taebong (898 - 918): 3 distinct phases (Hugoguryeo -> Majin -> Taebong)
+  // 8. Taebong (898 - 918)
   {
     id: 'seg_ea_taebong_hugoguryeo',
     entityId: 'ent_ea_taebong',
@@ -199,9 +263,14 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(898),
     endTime: createAstroTime(903),
     capitalOrCenter: '송악 (개성)',
+    capitalCoord: { x: 126.56, y: 37.97 },
     keyFigures: ['궁예', '왕륭', '왕건', '신훤'],
     powerWeight: 54,
-    stateDescription: '북원 양길의 부하에서 독자 세력을 구축한 궁예가 896년 송악 호족 왕륭·왕건 부자의 투항을 받아 898년 송악을 도읍으로 삼고, 901년 "신라가 당을 끌어들여 고구려를 멸망시킨 원수를 갚겠다"며 후고구려를 선포함. 903년 왕건을 보내 후백제 배후 나주를 점령함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_central_han_river', level: 'DOMINANT' },
+      { regionId: 'loc_ea_north_pyeongyang', level: 'INFLUENTIAL' },
+    ],
+    stateDescription: '궁예가 송악 호족 왕륭·왕건 부자의 투항을 받아 898년 송악 도읍, 901년 후고구려를 선포함. 903년 왕건을 보내 후백제 배후 나주를 점령함.',
     evidenceIds: ['evd_ea_samguksagi_gungye', 'evd_ea_naju_naval_campaign'],
   },
   {
@@ -212,9 +281,14 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(904),
     endTime: createAstroTime(910),
     capitalOrCenter: '철원 (풍천원)',
+    capitalCoord: { x: 127.31, y: 38.15 },
     keyFigures: ['궁예', '왕건', '종간', '은부'],
     powerWeight: 78,
-    stateDescription: '송악 기반 왕건 등 패서 호족의 영향력을 견제하고 독자 왕권을 강화하기 위해 904년 국호를 "마진(摩震)", 연호를 무태(武泰)로 고치고 905년 철원으로 천도함. 광평성 중심의 9관등 중앙 관제를 확립하고 한반도 중북부와 패서 13진, 나주까지 석권하여 후삼국 중 가장 넓은 영토와 인구를 차지함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_central_han_river', level: 'DOMINANT' },
+      { regionId: 'loc_ea_north_pyeongyang', level: 'DOMINANT' },
+    ],
+    stateDescription: '패서 호족을 견제하고 독자 왕권을 강화하기 위해 904년 국호를 마진으로 고치고 905년 철원으로 천도하여 후삼국 중 가장 넓은 영토를 확보함.',
     evidenceIds: ['evd_ea_samguksagi_gungye'],
   },
   {
@@ -225,9 +299,14 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(911),
     endTime: createAstroTime(918, { month: 6 }),
     capitalOrCenter: '철원',
+    capitalCoord: { x: 127.31, y: 38.15 },
     keyFigures: ['궁예', '강비', '왕건', '홍유', '배현경', '신숭겸', '복지겸'],
     powerWeight: 60,
-    stateDescription: '911년 국호를 "태봉(泰封)"으로 변경하고 고구려 부흥 명분을 버린 채 스스로 미륵불을 자처함. 호족 세력을 억누르기 위해 "관심법(觀心法)"을 내세워 부인 강씨와 두 아들, 수많은 신하를 숙청하고 과중한 세금과 북방 원정 준비로 민심이 극도로 이반됨. 결국 918년 6월 홍유·배현경·신숭겸·복지겸 등이 시중 왕건을 추대하는 역성혁명을 일으켜 궁예는 도주 중 피살됨.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_central_han_river', level: 'DOMINANT' },
+      { regionId: 'loc_ea_north_pyeongyang', level: 'DOMINANT' },
+    ],
+    stateDescription: '911년 국호를 태봉으로 변경하고 관심법으로 공포정치를 펴다 918년 6월 홍유·배현경·신숭겸·복지겸 등의 왕건 추대 역성혁명으로 붕괴함.',
     evidenceIds: ['evd_ea_samguksagi_gungye', 'evd_ea_goryeo_revolution_918'],
   },
 
@@ -240,9 +319,15 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(918, { month: 6 }),
     endTime: createAstroTime(936, { month: 9 }),
     capitalOrCenter: '철원(918) → 개경(송악 919 천도)',
+    capitalCoord: { x: 126.56, y: 37.97 },
     keyFigures: ['태조 왕건', '신숭겸', '유금필', '박술희', '최응', '대광현(발해 세자)'],
     powerWeight: 82,
-    stateDescription: '918년 왕건이 고구려 계승을 표방하며 국호를 "고려(高麗)", 연호를 천수(天授)로 정하고 919년 본거지 개경(송악)으로 천도함. 궁예의 적대적 대신라 정책을 폐기하고 친신라·호족 포용 정책(취민유도 조세 감면, 호족 혼인 동맹)을 펼침. 927년 공산 전투 패배의 위기를 930년 고창 전투 대승으로 극복하고, 발해 세자 대광현 등 수만 명의 유민 수용(934), 신라 경순왕의 자진 귀부(935), 견훤의 투항 및 일리천 전투 승리(936)로 후삼국을 완전 통일함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_central_han_river', level: 'DOMINANT' },
+      { regionId: 'loc_ea_north_pyeongyang', level: 'DOMINANT' },
+      { regionId: 'loc_ea_southeast_yeongnam', level: 'CONTESTED' },
+    ],
+    stateDescription: '고구려 계승을 천명하며 개경 천도 후 친신라·호족 포용 정책을 펼침. 발해 유민 흡수(934), 신라 귀부(935), 일리천 전투 대승(936)으로 후삼국을 통일함.',
     evidenceIds: [
       'evd_ea_goryeo_revolution_918',
       'evd_ea_gochang_battle_930',
@@ -259,9 +344,17 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(937),
     endTime: createAstroTime(1000),
     capitalOrCenter: '개경 (개성) · 서경 (평양 중시)',
+    capitalCoord: { x: 126.56, y: 37.97 },
     keyFigures: ['태조 왕건', '광종', '최승로', '성종', '서희'],
     powerWeight: 95,
-    stateDescription: '삼한(신라·백제·고구려)과 발해 유민까지 아우르는 민족 재통일을 완성하고 서경(평양)을 북진 기지로 삼아 청천강~영흥만까지 영토를 확장함. 태조의 『훈요 10조』(943), 광종의 노비안검법·과거제(956~958), 성종의 최승로 시무 28조 수용으로 유교적 중앙집권 체제를 확립하고, 993년 거란 소손녕의 침입 때 서희의 외교 담판으로 강동 6주를 획득함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_central_han_river', level: 'DOMINANT' },
+      { regionId: 'loc_ea_north_pyeongyang', level: 'DOMINANT' },
+      { regionId: 'loc_ea_southwest_honam', level: 'DOMINANT' },
+      { regionId: 'loc_ea_southeast_yeongnam', level: 'DOMINANT' },
+      { regionId: 'loc_ea_tamna_jeju', level: 'INFLUENTIAL' },
+    ],
+    stateDescription: '삼한과 발해 유민을 포괄하는 민족 재통일을 완성하고 서경을 북진 기지로 삼아 영토를 확장함. 훈요 10조, 과거제, 서희의 외교 담판(강동 6주)으로 체제를 공고화함.',
     evidenceIds: ['evd_ea_goryeo_manbugyo', 'evd_ea_hunyo_10_articles'],
   },
 
@@ -274,9 +367,13 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(400),
     endTime: createAstroTime(1000),
     capitalOrCenter: '제주 (탐라)',
+    capitalCoord: { x: 126.53, y: 33.5 },
     keyFigures: ['고후·고청(성주·왕자)', '말로(탐라국 태자)'],
     powerWeight: 26,
-    stateDescription: '백제에 조공하며 동아시아 해상 중계 무역을 담당하다 백제 멸망 후 신라 문무왕에게 성주·왕자 작위를 받음. 후삼국 통일 직후인 938년 탐라국 태자 말로가 고려 개경에 입조하여 성주·왕자 작위를 공인받고 독자 자치 체제를 지속함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_tamna_jeju', level: 'DOMINANT' },
+    ],
+    stateDescription: '백제·신라에 이어 938년 고려 태조에게 태자 말로가 입조하여 자치권을 공인받고 해상 교역을 유지함.',
     evidenceIds: ['evd_ea_silla_surrender_935'],
   },
 
@@ -289,9 +386,13 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(400),
     endTime: createAstroTime(710),
     capitalOrCenter: '아스카 (기나이) → 후지와라쿄',
+    capitalCoord: { x: 130.8, y: 33.6 },
     keyFigures: ['쇼토쿠 태자', '덴지 천황', '덴무 천황'],
     powerWeight: 65,
-    stateDescription: '백제로부터 불교·오경박사·기술자를 수용하며 아스카 문화를 발전시킴. 660년 백제 멸망 후 백제 부흥군(풍장·복신)을 돕기 위해 663년 백강(금강 하구)에 2만 7천 대군과 전함 400여 척을 보냈으나 나당연합군에 궤멸됨. 이후 백제 망명 귀족을 수용해 규슈 수성(미즈키)·대마도 산성을 쌓고 다이호 율령(701)으로 국호 "일본"과 천황 중심 율령제를 확립함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_japan_west', level: 'DOMINANT' },
+    ],
+    stateDescription: '백제와 동맹하여 663년 백강 전투에 파병했으나 참패하고 다이호 율령(701)으로 일본 율령국가로 전환함.',
     evidenceIds: ['evd_ea_baekgang_battle_663'],
   },
   {
@@ -302,9 +403,13 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(710),
     endTime: createAstroTime(794),
     capitalOrCenter: '헤이조쿄 (나라)',
+    capitalCoord: { x: 130.8, y: 33.6 },
     keyFigures: ['쇼무 천황', '후지와라 나카마로'],
     powerWeight: 68,
-    stateDescription: '통일신라를 번국으로 대하려는 외교 마찰로 신라 정벌론까지 대두된 반면, 727년 발해 무왕의 첫 사절 파견 이후 발해와는 신라 견제 및 선진 문물 교역을 목적으로 긴밀한 외교 동맹을 유지함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_japan_west', level: 'DOMINANT' },
+    ],
+    stateDescription: '헤이조쿄를 중심으로 발해와 34차례 사절을 교환하며 신라를 견제하고 공무역을 번성시킴.',
     evidenceIds: ['evd_ea_balhae_japan_envoy'],
   },
   {
@@ -315,9 +420,13 @@ export const eastAsiaSegments: StateSegment[] = [
     startTime: createAstroTime(794),
     endTime: createAstroTime(1000),
     capitalOrCenter: '헤이안쿄 (교토)',
+    capitalCoord: { x: 130.8, y: 33.6 },
     keyFigures: ['간무 천황', '스가와라 미치자네', '후지와라 가문'],
     powerWeight: 64,
-    stateDescription: '9세기 장보고의 청해진 해상 네트워크를 통해 신라·당과 교역했으나, 신라 하대 혼란기 신라 해적(신라구) 문제로 경계심이 높아짐. 894년 견당사를 폐지하며 고립주의로 선회했고, 후백제 견훤(922, 929)과 고려 태조 왕건(937, 940)이 보낸 국교 수립 사절을 모두 공식 거절함.',
+    occupiedRegions: [
+      { regionId: 'loc_ea_japan_west', level: 'DOMINANT' },
+    ],
+    stateDescription: '894년 견당사 폐지 이후 대외 고립주의를 채택하여 견훤의 후백제 및 왕건의 고려의 통교 요청을 모두 거절함.',
     evidenceIds: ['evd_ea_heian_diplomacy_refusal'],
   },
 ];

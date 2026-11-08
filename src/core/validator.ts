@@ -24,6 +24,7 @@ const ALL_RULE_CODES: ValidationRuleCode[] = [
   'V10_EVENT_REFS',
   'V11_TEMPORAL_CAUSALITY',
   'V12_ENTITY_COVERAGE',
+  'V13_SPATIAL_INTEGRITY',
 ];
 
 export function validateDomainPack(pack: DomainPack): ValidationReport {
@@ -52,11 +53,19 @@ export function validateDomainPack(pack: DomainPack): ValidationReport {
     seenIds.add(id);
   };
 
-  // 1. Validate Axes
+  // 1. Validate Axes & Topology Regions
   const axisIdSet = new Set<string>();
   for (const axis of pack.axes) {
     checkIdFormat(axis.id, 'axis');
     axisIdSet.add(axis.id);
+  }
+
+  const regionIdSet = new Set<string>();
+  if (pack.topology) {
+    for (const region of pack.topology.regions) {
+      checkIdFormat(region.id, 'loc');
+      regionIdSet.add(region.id);
+    }
   }
 
   // 2. Validate Evidences
@@ -161,6 +170,19 @@ export function validateDomainPack(pack: DomainPack): ValidationReport {
           targetId: seg.id,
           message: `Segment "${seg.id}" references non-existent evidenceId "${evdId}".`,
         });
+      }
+    }
+
+    if (seg.occupiedRegions && pack.topology) {
+      for (const occ of seg.occupiedRegions) {
+        if (!regionIdSet.has(occ.regionId)) {
+          issues.push({
+            ruleCode: 'V02_AXIS_REF',
+            severity: 'ERROR',
+            targetId: seg.id,
+            message: `Segment "${seg.id}" references non-existent regionId "${occ.regionId}" in topology.`,
+          });
+        }
       }
     }
 
@@ -339,6 +361,60 @@ export function validateDomainPack(pack: DomainPack): ValidationReport {
         targetId: ent.id,
         message: `Entity "${ent.id}" is not connected to any Transition.`,
       });
+    }
+  }
+
+  // 8. Validate Spatial Integrity (V13)
+  if (pack.territories) {
+    if (!pack.topology) {
+      issues.push({
+        ruleCode: 'V13_SPATIAL_INTEGRITY',
+        severity: 'ERROR',
+        targetId: pack.id,
+        message: 'DomainPack has territories defined but lacks a topology canvas.',
+      });
+    } else {
+      for (const ter of pack.territories) {
+        checkIdFormat(ter.id, 'ter');
+
+        if (!entityMap.has(ter.entityId)) {
+          issues.push({
+            ruleCode: 'V13_SPATIAL_INTEGRITY',
+            severity: 'ERROR',
+            targetId: ter.id,
+            message: `Territory "${ter.id}" references non-existent entityId "${ter.entityId}".`,
+          });
+        }
+
+        if (ter.startYear > ter.endYear) {
+          issues.push({
+            ruleCode: 'V13_SPATIAL_INTEGRITY',
+            severity: 'ERROR',
+            targetId: ter.id,
+            message: `Territory "${ter.id}" has startYear (${ter.startYear}) > endYear (${ter.endYear}).`,
+          });
+        }
+
+        if (!ter.rings || ter.rings.length === 0) {
+          issues.push({
+            ruleCode: 'V13_SPATIAL_INTEGRITY',
+            severity: 'ERROR',
+            targetId: ter.id,
+            message: `Territory "${ter.id}" must contain at least 1 polygon ring.`,
+          });
+        } else {
+          for (const ring of ter.rings) {
+            if (ring.length < 3) {
+              issues.push({
+                ruleCode: 'V13_SPATIAL_INTEGRITY',
+                severity: 'ERROR',
+                targetId: ter.id,
+                message: `Territory "${ter.id}" ring must have at least 3 vertices (found ${ring.length}).`,
+              });
+            }
+          }
+        }
+      }
     }
   }
 

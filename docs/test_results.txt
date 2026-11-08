@@ -1,50 +1,63 @@
-================================================================================
- CHRONONEXUS UNIVERSAL TIMELINE & CAUSAL ENGINE — TEST & VALIDATION REPORT
- Date: 2026-11-08
-================================================================================
+======================================================================
+ CHRONONEXUS UNIVERSAL TIMELINE & CAUSAL GRAPH — TEST RESULTS REPORT
+======================================================================
+Report Generated: 2026-11-08
+Platform: Windows (PowerShell) / Node.js / Vite / TypeScript
 
-1. ORACLE CONTRACT VALIDATOR CLI (`npm run validate:packs`)
---------------------------------------------------------------------------------
-Command: tsx scripts/validatePacks.ts
-Exit Code: 0 (PASS)
+1. DOMAIN PACK CONTRACT VALIDATION (13 RULES)
+----------------------------------------------------------------------
+Command: npm run validate:packs
 
 ▶ Pack 1: [east-asia-history] 한반도 · 만주 · 일본 열도 역사 (삼국 ~ 남북국 ~ 후삼국 ~ 고려 통일)
-  - Axes: 5 (만주·요동·북방, 한반도 북부, 한반도 중부, 한반도 남부, 일본 열도)
-  - Entities: 13 (고구려, 발해, 거란(요), 백제, 가야 연맹, 신라(통일신라), 후백제, 태봉(후고구려·마진), 고려, 탐라국, 왜·야마토, 나라 일본, 헤이안 일본)
-  - StateSegments: 22 (시기별 국호 변경, 수도 천도, 세력 비중 powerWeight 포함)
-  - Transitions: 15 (분열 SPLIT, 통합 MERGE, 역성혁명 REGIME_CHANGE, 외부자극 INFLUENCE)
-  - HistoricalEvents: 13 (주요 전투 및 역사적 분수령)
-  - Evidences: 18 (『삼국사기』, 『고려사』, 『속일본기』, 『일본서기』, 『부상략기』 등 1차 사료 및 학계 이설)
-  - Contract Rules Passed: 12/12 | Errors: 0 | Warnings: 0
+  Temporal Scope: 400 CE - 1000 CE (Default Focus: 901 CE)
+  Stats: Axes=5, Entities=13, Segments=22, Transitions=15, Events=13, Evidences=18, Territories=16
+  Contract Rules Passed: 13 / 13
+  Errors: 0
+  Warnings: 0
+  Status: [PASS] 100% Compliant with all 13 Oracle Schema & Causal & Spatial Integrity Contracts.
 
 ▶ Pack 2: [physics-history] 물리학 패러다임의 역사 (고전역학 ~ 상대성이론 · 양자역학 ~ 표준모형)
-  - Axes: 4 (중력·시공간·우주론, 역학·열역학·통계물리, 전자기학·광학, 양자역학·입자물리·표준모형)
-  - Entities: 6 (뉴턴 고전역학, 열·통계역학, 고전 전자기학, 상대성이론, 양자역학, 양자장론·표준모형)
-  - StateSegments: 7
-  - Transitions: 4
-  - HistoricalEvents: 5
-  - Evidences: 5
-  - Contract Rules Passed: 12/12 | Errors: 0 | Warnings: 0
+  Temporal Scope: 1687 CE - 1980 CE (Default Focus: 1905 CE)
+  Stats: Axes=4, Entities=6, Segments=7, Transitions=4, Events=5, Evidences=5, Regions=4
+  Contract Rules Passed: 13 / 13
+  Errors: 0
+  Warnings: 0
+  Status: [PASS] 100% Compliant with all 13 Oracle Schema & Causal & Spatial Integrity Contracts.
 
-Result: ✅ All registered DomainPacks passed 12/12 Oracle Contract checks with ZERO errors!
+2. BUILD VERIFICATION
+----------------------------------------------------------------------
+Command: npx tsc && npx vite build
+Result:
+  ✓ 1604 modules transformed.
+  dist/index.html                                    0.46 kB │ gzip:   0.35 kB
+  dist/assets/timelineEngine.worker-Dud2jjr0.js      7.25 kB
+  dist/assets/index-BUycGFP8.css                     7.53 kB │ gzip:   1.89 kB
+  dist/assets/index-WRQ212QT.js                  1,125.09 kB │ gzip: 377.98 kB
+  Status: SUCCESS (Exit Code 0)
 
+3. FILE LINE COUNT LIMIT COMPLIANCE (< 900 Lines per file)
+----------------------------------------------------------------------
+All files in src/ are strictly under 900 lines:
+- src/packs/east-asia-history/transitions.ts: 626 lines
+- src/components/TimeRiverCanvas.tsx: 515 lines
+- src/components/SpatialTopologyCanvas.tsx: 507 lines
+- src/core/layoutEngine.ts: 472 lines
+- src/packs/east-asia-history/segments.ts: 420 lines
+- src/packs/east-asia-history/territories.ts: 416 lines
+- src/core/validator.ts: 407 lines
+- src/packs/east-asia-history/eventsAndEvidences.ts: 399 lines
+- src/contracts/timeline.contract.ts: 343 lines
+- src/components/CausalLineageTracer.tsx: 280 lines
+- src/packs/physics-history/transitionsAndEvidences.ts: 269 lines
+- src/App.tsx: 249 lines
+- All other files: < 240 lines
+Status: FULLY COMPLIANT
 
-2. TYPESCRIPT STRICT CHECK & VITE PRODUCTION BUILD (`npm run build`)
---------------------------------------------------------------------------------
-Command: tsc -b && vite build
-Exit Code: 0 (PASS)
-
-Bundle Output:
-  - dist/index.html                                  0.46 kB │ gzip:  0.35 kB
-  - dist/assets/timelineEngine.worker-Dud2jjr0.js    7.25 kB (Dedicated Web Worker Bundle)
-  - dist/assets/index-WJe4q6HS.css                   7.04 kB │ gzip:  1.78 kB (Zero-Blur CSS)
-  - dist/assets/index-CXZpZmji.js                  306.92 kB │ gzip: 96.01 kB
-Build Time: 1.93s
-
-
-3. PERFORMANCE & ARCHITECTURE AUDIT
---------------------------------------------------------------------------------
-  - [PASS] Web Worker Off-Main-Thread Compute: `timelineEngine.worker.ts` handles pack indexing, O(log N) binary search snapshot extraction, BFS causal lineage tracing, and Sankey geometry layout.
-  - [PASS] Aggressive Memoization: `TimelineWorkerClient` maintains a 512-entry LRU Snapshot Cache and 256-entry LRU Lineage Cache (`0ms` latency on repeated scrubbing), plus `React.memo` and `useMemo` across all UI components.
-  - [PASS] Zero-Blur UI Policy: `styles.css` and all SVG/HTML components contain 0 instances of `backdrop-filter: blur` or `filter: blur`.
-  - [PASS] File Modularity (< 900 Lines Limit): Every file in `src/`, `scripts/`, and `important/` is well below 450 lines (max file is ~430 lines).
+4. ZERO-BLUR & PERFORMANCE COMPLIANCE
+----------------------------------------------------------------------
+- CSS filter: blur() / backdrop-filter: blur(): ZERO OCCURRENCES
+- SVG land mask clipping: <clipPath id="ne-land-mask">
+- Coordinate projection: Equirectangular with cos(38 deg) latitude scaling
+- Layout: Side-by-side stream on left (58%) + synchronized interactive map on right (42%)
+- Real-time time scrubbing sync: Verified
+======================================================================

@@ -131,6 +131,8 @@ export interface StateSegment {
   endTime: AstroTime;
   /** 수도, 중심지 또는 핵심 거점 (예: '경주(금성)', '전주(완산주)', '철원', '개경(송악)') */
   capitalOrCenter?: string;
+  /** 공간/지도상 수도 위치 핀 좌표 (x, y: 0~1000 상대좌표) */
+  capitalCoord?: { x: number; y: number };
   /** 대표 지도자/인물 목록 (예: ['궁예', '왕건']) */
   keyFigures: string[];
   /**
@@ -138,6 +140,8 @@ export interface StateSegment {
    * 예: 통일신라 전성기 = 85, 신라 하대 진성여왕~경순왕 분열기 = 25
    */
   powerWeight: number;
+  /** 해당 시기에 지배·영향력을 행사한 공간/위상 영역 목록 (LocusRegion 참조) */
+  occupiedRegions?: Array<{ regionId: string; level: 'DOMINANT' | 'INFLUENTIAL' | 'CONTESTED' }>;
   /** 이 시기의 정치·사회·이론적 상태 핵심 설명 */
   stateDescription: string;
   /** 이 상태 구간을 뒷받침하는 근거 ID 목록 (Evidence.id 참조) */
@@ -246,7 +250,37 @@ export interface Evidence {
 
 ---
 
-## 4. 최상위 컨테이너: `DomainPack` 계약
+## 4. 공간/위상 캔버스: `SpatialTopology` 및 `LocusRegion` 계약
+
+역사의 지리적 지도(한반도·만주·일본 등)나 과학의 2차원 위상도(에너지-스케일 맵)를 단일 인터페이스로 렌더링하기 위한 오라클 규격이다.
+
+```typescript
+export interface LocusRegion {
+  /** 규격: loc_<packCode>_<slug> (예: loc_ea_han_river, loc_ea_wansan_jeonju) */
+  id: string;
+  name: string;
+  shortLabel?: string;
+  description: string;
+  /** SVG 지도 영역 다각형 Path 데이터 */
+  boundarySvgPath: string;
+  /** 영역 대표 중심 좌표 (x, y: 0~1000 상대좌표) */
+  centerCoord: { x: number; y: number };
+}
+
+export interface SpatialTopology {
+  /** 캔버스 유형: 지리 지도(GEOGRAPHIC_MAP) 또는 개념 위상도(CONCEPTUAL_TOPOLOGY) */
+  canvasType: 'GEOGRAPHIC_MAP' | 'CONCEPTUAL_TOPOLOGY';
+  viewBox: { width: number; height: number };
+  /** 고정 배경선 (해안선, 강, 국경 윤곽, 2D 그리드 축) */
+  baseMapSvgPath: string;
+  /** 소속 영역 목록 */
+  regions: LocusRegion[];
+}
+```
+
+---
+
+## 5. 최상위 컨테이너: `DomainPack` 계약
 
 하나의 완성된 타임라인 세계관(예: 동아시아·한반도사, 물리학사, 유럽사)은 아래 `DomainPack` 객체 하나로 패키징된다.
 
@@ -281,11 +315,17 @@ export interface DomainPack {
   };
   /** 배경에 표시할 거시적 시대 구분 띠 (예: 삼국시대 -> 남북국시대 -> 후삼국시대 -> 고려 통일기) */
   eraMilestones: EraMilestone[];
+  /** 선택 사항: 고정 지리 지도 또는 2D 위상도 캔버스 */
+  topology?: SpatialTopology;
   /** 6대 데이터 테이블 */
   axes: Axis[];
   entities: Entity[];
   segments: StateSegment[];
   transitions: Transition[];
+  events: HistoricalEvent[];
+  evidences: Evidence[];
+}
+```
   events: HistoricalEvent[];
   evidences: Evidence[];
 }

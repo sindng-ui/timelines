@@ -244,11 +244,50 @@ input {
   padding: 14px 20px 28px;
 }
 
+/* Side-by-side Interactive Stream & Map Row */
+.interactive-stream-row {
+  display: grid;
+  grid-template-columns: 1.32fr 0.98fr;
+  gap: 14px;
+  align-items: stretch;
+}
+
+.interactive-stream-row.full-width {
+  grid-template-columns: 1fr;
+}
+
+.stream-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.map-col {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 1280px) {
+  .interactive-stream-row {
+    grid-template-columns: 1fr;
+  }
+}
+
 .river-card {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-subtle);
   border-radius: 8px;
   overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.spatial-canvas-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .section-header {
@@ -299,15 +338,22 @@ input {
   position: relative;
 }
 
-/* Bottom 3-Column Analysis Deck */
+/* Bottom 2-Column Integrated Analysis Deck */
 .analysis-deck {
   display: grid;
-  grid-template-columns: 1.05fr 1.35fr 1.1fr;
+  grid-template-columns: 1.18fr 1.32fr;
   gap: 14px;
   align-items: start;
 }
 
-@media (max-width: 1280px) {
+.deck-left-col,
+.deck-right-col {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (max-width: 1200px) {
   .analysis-deck {
     grid-template-columns: 1fr;
   }

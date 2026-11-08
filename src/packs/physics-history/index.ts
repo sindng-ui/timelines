@@ -6,6 +6,7 @@
 import type { DomainPack } from '../../contracts/timeline.contract';
 import { physicsAxes, physicsEntities, physicsSegments } from './axesAndEntities';
 import { physicsEvidences, physicsEvents, physicsTransitions } from './transitionsAndEvidences';
+import { physicsTopology } from './topology';
 
 export const physicsHistoryPack: DomainPack = {
   id: 'physics-history',
@@ -54,6 +55,7 @@ export const physicsHistoryPack: DomainPack = {
       description: '디랙·파인만 QED에서 전자기약력 통일과 2012년 CERN LHC 힉스 보손 발견까지',
     },
   ],
+  topology: physicsTopology,
   axes: physicsAxes,
   entities: physicsEntities,
   segments: physicsSegments,

@@ -9,6 +9,8 @@ import { eastAsiaEntities } from './entities';
 import { eastAsiaSegments } from './segments';
 import { eastAsiaTransitions } from './transitions';
 import { eastAsiaEvents, eastAsiaEvidences } from './eventsAndEvidences';
+import { eastAsiaTopology } from './topology';
+import { eastAsiaTerritories } from './territories';
 
 export const eastAsiaHistoryPack: DomainPack = {
   id: 'east-asia-history',
@@ -57,6 +59,8 @@ export const eastAsiaHistoryPack: DomainPack = {
       description: '삼한과 발해 유민을 통합한 고려의 훈요 10조, 광종·성종 개혁 및 거란(요)과의 외교·군사 대결',
     },
   ],
+  topology: eastAsiaTopology,
+  territories: eastAsiaTerritories,
   axes: eastAsiaAxes,
   entities: eastAsiaEntities,
   segments: eastAsiaSegments,

@@ -1,7 +1,7 @@
 /**
  * @file timeline.contract.ts
  * @description Strict ontology and data schema contracts for the Universal Timeline & Causal Knowledge Graph Framework.
- * Every DomainPack MUST conform 100% to these interfaces and pass the 12-point validator.
+ * Every DomainPack MUST conform 100% to these interfaces and pass the 13-point validator.
  */
 
 export type TimePrecision = 'YEAR' | 'MONTH' | 'DAY' | 'DECADE' | 'CENTURY' | 'APPROXIMATE';
@@ -85,6 +85,22 @@ export interface Entity {
   laneOffset?: number;
 }
 
+export interface PointCoord {
+  /** X in topology coordinate space (longitude for geographic maps) */
+  x: number;
+  /** Y in topology coordinate space (latitude for geographic maps) */
+  y: number;
+}
+
+export type ControlLevel = 'DOMINANT' | 'INFLUENTIAL' | 'CONTESTED';
+
+export interface LocusOccupancy {
+  /** LocusRegion ID (references LocusRegion.id) */
+  regionId: string;
+  /** Degree of sovereign control */
+  level: ControlLevel;
+}
+
 export interface StateSegment {
   /** Format: seg_<packCode>_<entitySlug>_<phaseSlug> */
   id: string;
@@ -100,10 +116,14 @@ export interface StateSegment {
   endTime: AstroTime;
   /** Capital city, institutional center, or core locus */
   capitalOrCenter?: string;
+  /** Capital/locus coordinate in topology coordinate space ([lon, lat] for geographic maps) */
+  capitalCoord?: PointCoord;
   /** Key historical or scientific figures active in this segment */
   keyFigures: string[];
   /** Relative power, territory, or paradigm dominance weight (1 to 100) for Sankey stream thickness */
   powerWeight: number;
+  /** Territories / loci controlled during this segment */
+  occupiedRegions?: LocusOccupancy[];
   /** Detailed description of internal conditions during this phase */
   stateDescription: string;
   /** Supporting evidence IDs (references Evidence.id) */
@@ -165,6 +185,8 @@ export interface HistoricalEvent {
   relatedTransitionId?: string;
   /** Geographical location or experimental context */
   locationOrContext?: string;
+  /** Optional event pin coordinate in topology coordinate space ([lon, lat] for geographic maps) */
+  mapCoord?: PointCoord;
   /** Summary of the event and its impact */
   summary: string;
   /** Factor classification tags */
@@ -203,6 +225,74 @@ export interface EraMilestone {
   description: string;
 }
 
+/**
+ * Coordinate space of a topology.
+ * - EQUIRECTANGULAR: PointCoord.x = longitude, PointCoord.y = latitude (degrees).
+ * - IDENTITY: PointCoord is already in viewBox units (conceptual maps).
+ */
+export interface SpatialProjection {
+  type: 'EQUIRECTANGULAR' | 'IDENTITY';
+  bounds: { minX: number; maxX: number; minY: number; maxY: number };
+}
+
+/** Pre-rendered static layer, path already projected into viewBox pixel space. */
+export interface BaseMapLayer {
+  id: string;
+  kind: 'LAND' | 'RIVER' | 'GRID' | 'BORDER';
+  svgPath: string;
+}
+
+export interface LocusRegion {
+  /** Format: loc_<packCode>_<slug> */
+  id: string;
+  name: string;
+  shortLabel?: string;
+  description: string;
+  /** Label anchor in topology coordinate space */
+  centerCoord: PointCoord;
+  /** Optional region polygon(s) in topology coordinate space ([x, y] tuples) */
+  rings?: Array<Array<[number, number]>>;
+  /** 'PLACE' = geographic place-name label only, 'ZONE' = fillable region */
+  kind?: 'PLACE' | 'ZONE';
+}
+
+export interface SpatialTopology {
+  /** Map type: geographic territory vs conceptual scale/phase map */
+  canvasType: 'GEOGRAPHIC_MAP' | 'CONCEPTUAL_TOPOLOGY';
+  /** Coordinate space and visible bounds */
+  projection: SpatialProjection;
+  /** Projected viewBox size (must equal createProjectionFrame(projection) output) */
+  viewBox: { width: number; height: number };
+  /** Static base layers (coastline/land mask, rivers, grid) in viewBox pixels */
+  baseLayers: BaseMapLayer[];
+  /** If true, territory fills are clipped by LAND layers (coastline-accurate coloring) */
+  clipTerritoriesToLand: boolean;
+  /** Place-name labels or fillable zones */
+  regions: LocusRegion[];
+}
+
+/**
+ * Time-bounded territorial extent of an Entity, drawn in topology coordinate space.
+ * Polygons may freely extend into the sea; the renderer clips them by the land mask.
+ */
+export interface TerritoryShape {
+  /** Format: ter_<packCode>_<slug> */
+  id: string;
+  /** Owner entity (references Entity.id) */
+  entityId: string;
+  /** Inclusive validity range (years) */
+  startYear: number;
+  endYear: number;
+  /** Degree of control (CONTESTED renders hatched) */
+  level: ControlLevel;
+  /** Polygon rings in topology coordinate space ([lon, lat] for geographic maps) */
+  rings: Array<Array<[number, number]>>;
+  /** Explicit label anchor (recommended) */
+  labelCoord?: PointCoord;
+  /** Paint order: higher draws later (enclaves, occupied pockets) */
+  layer?: number;
+}
+
 export interface DomainPack {
   /** Unique pack slug (e.g., 'east-asia-history', 'physics-history') */
   id: string;
@@ -224,6 +314,10 @@ export interface DomainPack {
   };
   /** Macro-era background bands */
   eraMilestones: EraMilestone[];
+  /** Optional spatial topology canvas (geographic map or 2D phase map) */
+  topology?: SpatialTopology;
+  /** Optional time-bounded territory polygons (requires topology) */
+  territories?: TerritoryShape[];
   /** The 6 canonical tables */
   axes: Axis[];
   entities: Entity[];
@@ -245,7 +339,8 @@ export type ValidationRuleCode =
   | 'V09_EVIDENCE_REQUIRED'
   | 'V10_EVENT_REFS'
   | 'V11_TEMPORAL_CAUSALITY'
-  | 'V12_ENTITY_COVERAGE';
+  | 'V12_ENTITY_COVERAGE'
+  | 'V13_SPATIAL_INTEGRITY';
 
 export interface ValidationIssue {
   ruleCode: ValidationRuleCode;

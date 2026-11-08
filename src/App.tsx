@@ -20,6 +20,7 @@ import {
 import { TopControlBar } from './components/TopControlBar';
 import { TimeScrubber } from './components/TimeScrubber';
 import { TimeRiverCanvas } from './components/TimeRiverCanvas';
+import { SpatialTopologyCanvas } from './components/SpatialTopologyCanvas';
 import { SnapshotStatePanel } from './components/SnapshotStatePanel';
 import { CausalLineageTracer } from './components/CausalLineageTracer';
 import { EvidenceDrawer } from './components/EvidenceDrawer';
@@ -203,44 +204,68 @@ export const App: React.FC = () => {
       />
 
       <main className="workspace-container">
-        <TimeRiverCanvas
-          pack={activePack}
-          layout={riverLayout}
-          currentYear={currentYear}
-          activeFactor={activeFactor}
-          selectedFocusType={selectedFocusType}
-          selectedFocusId={selectedFocusId}
-          highlightedEntityIds={lineageResult.highlightedEntityIds}
-          highlightedTransitionIds={lineageResult.highlightedTransitionIds}
-          onSelectEntity={handleSelectEntity}
-          onSelectTransition={handleSelectTransition}
-          onSelectEvent={handleSelectEvent}
-          onScrubYear={setCurrentYear}
-        />
+        {/* Top Interactive Row: Time River Stream on Left + Spatial Topology Map on Right */}
+        <div className={`interactive-stream-row ${!activePack.topology ? 'full-width' : ''}`}>
+          <div className="stream-col">
+            <TimeRiverCanvas
+              pack={activePack}
+              layout={riverLayout}
+              currentYear={currentYear}
+              activeFactor={activeFactor}
+              selectedFocusType={selectedFocusType}
+              selectedFocusId={selectedFocusId}
+              highlightedEntityIds={lineageResult.highlightedEntityIds}
+              highlightedTransitionIds={lineageResult.highlightedTransitionIds}
+              onSelectEntity={handleSelectEntity}
+              onSelectTransition={handleSelectTransition}
+              onSelectEvent={handleSelectEvent}
+              onScrubYear={setCurrentYear}
+            />
+          </div>
 
+          {activePack.topology && (
+            <div className="map-col">
+              <SpatialTopologyCanvas
+                pack={activePack}
+                snapshot={snapshot}
+                selectedFocusType={selectedFocusType}
+                selectedFocusId={selectedFocusId}
+                onSelectEntity={handleSelectEntity}
+                onSelectEvent={handleSelectEvent}
+                onSelectTransition={handleSelectTransition}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Bottom Analysis Deck: Status Breakdown + 3-Stage Causal Storyboard + Evidences */}
         <div className="analysis-deck">
-          <SnapshotStatePanel
-            axes={sortedAxes}
-            snapshot={snapshot}
-            selectedFocusType={selectedFocusType}
-            selectedFocusId={selectedFocusId}
-            onSelectEntity={handleSelectEntity}
-            onSelectTransition={handleSelectTransition}
-            onSelectEvent={handleSelectEvent}
-          />
+          <div className="deck-left-col">
+            <SnapshotStatePanel
+              axes={sortedAxes}
+              snapshot={snapshot}
+              selectedFocusType={selectedFocusType}
+              selectedFocusId={selectedFocusId}
+              onSelectEntity={handleSelectEntity}
+              onSelectTransition={handleSelectTransition}
+              onSelectEvent={handleSelectEvent}
+            />
+          </div>
 
-          <CausalLineageTracer
-            lineage={lineageResult}
-            focusSegments={focusSegments}
-            onSelectEntity={handleSelectEntity}
-            onSelectTransition={handleSelectTransition}
-            onSelectEvent={handleSelectEvent}
-          />
+          <div className="deck-right-col">
+            <CausalLineageTracer
+              lineage={lineageResult}
+              focusSegments={focusSegments}
+              onSelectEntity={handleSelectEntity}
+              onSelectTransition={handleSelectTransition}
+              onSelectEvent={handleSelectEvent}
+            />
 
-          <EvidenceDrawer
-            evidences={lineageResult.supportingEvidences}
-            focusTitle={lineageResult.focusTitle}
-          />
+            <EvidenceDrawer
+              evidences={lineageResult.supportingEvidences}
+              focusTitle={lineageResult.focusTitle}
+            />
+          </div>
         </div>
       </main>
 
